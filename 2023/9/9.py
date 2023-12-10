@@ -1,21 +1,23 @@
 input = open("input.txt", "r").read().split("\n")
-numbers = [[int(n) for n in line.split()] for line in input]
+lines = [[int(n) for n in line.split()] for line in input]
 
-def line_below(sequence):
-    out = [b-a for a, b in zip(sequence[:-1], sequence[1:]) ]
-    return out
 
-def next_number(sequence):
-    if done(sequence):
+def line_below(line):
+    return [b - a for a, b in zip(line[:-1], line[1:])]
+
+
+def next_number(line):
+    if done(line):
         return 0
     else:
-        return sequence[-1] + next_number(line_below(sequence))
+        return line[-1] + next_number(line_below(line))
 
-def previous_number(sequence):
-    if done(sequence):
+
+def previous_number(line):
+    if done(line):
         return 0
     else:
-        out = sequence[0] - previous_number(line_below(sequence))
+        out = line[0] - previous_number(line_below(line))
     return out
 
 
@@ -23,8 +25,7 @@ def done(sequence):
     return all([number == 0 for number in sequence])
 
 
-solution1 = sum(next_number(line) for line in numbers)
-solution2 = sum(previous_number(line) for line in numbers)
+solution1 = sum(next_number(line) for line in lines)
+solution2 = sum(previous_number(line) for line in lines)
 
 print(solution1, solution2)
-
